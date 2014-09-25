@@ -1,0 +1,17 @@
+#### Slide 1 ####
+
+Don't Forget The Elephant
+    A review of modern PostgreSQL
+
+Keith Fiske
+Database Administrator @ OmniTI
+
+keith@omniti.com
+http://www.omniti.com
+@keithf4
+http://www.keithf4.com
+
+
+#### Slide 2 ####
+
+OmniTI
