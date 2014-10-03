@@ -97,7 +97,7 @@
                         <ul>
                             <li>Procedural Languages</li>
                             <ul>
-                                <li>C, Java, Python, Perl, PHP, R, Ruby, etc</li>
+                                <li>C, Java, Python, Perl, JavaScript, PHP, R, Ruby, etc</li>
                             </ul>
                             <li>Extensions</li>
                             <li>Background Workers</li>
@@ -182,7 +182,7 @@
                         <ul>
                             <li>Full text search integrated into core system</li>
                             <li>ENUM & UUID types</li>
-                            <li>Concurrent autovacuum</li>
+                            <li>Concurrent autovacuum allowed spawning of multiple vacuum jobs automatically</li>
                             <li>Updatable cursors</li>
                         </ul>
                     </section>
@@ -196,16 +196,175 @@
                     </section>
                     <section>
                         <h2>Window Functions</h2>
+                        <ul>
+                            <li>Performs a calculation across a set of table rows that are somehow related to the current row</li>
+                            <li>The OVER clause determines exactly how the rows of the query are split up for processing by the window function</li>
+                        </ul>
+                        <pre><code data-trim>
+SELECT salary, sum(salary) OVER () FROM empsalary;
+
+ salary |  sum  
+--------+-------
+   5200 | 47100
+   5000 | 47100
+   3500 | 47100
+   4800 | 47100
+   3900 | 47100
+   4200 | 47100
+   4500 | 47100
+   4800 | 47100
+   6000 | 47100
+   5200 | 47100
+(10 rows)
+
+
+SELECT salary, sum(salary) OVER (ORDER BY salary) FROM empsalary;
+
+ salary |  sum  
+--------+-------
+   3500 |  3500
+   3900 |  7400
+   4200 | 11600
+   4500 | 16100
+   4800 | 25700
+   4800 | 25700
+   5000 | 30700
+   5200 | 41100
+   5200 | 41100
+   6000 | 47100
+(10 rows)
+                        </code></pre>
+                        <aside class="notes">
+                        <small>
+                            <ul>
+                                <li>For each row, there is a set of rows within its partition called its window frame</li>
+                                <li>Many (but not all) window functions act only on the rows of the window frame, rather than of the whole partition. By default, if ORDER BY is supplied then the frame consists of all rows from the start of the partition up through the current row, plus any following rows that are equal to the current row according to the ORDER BY clause.
+                            </ul>
+                        </small>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Window Functions</h2>
+                        <ul>
+                            <li>The PARTITION BY list within OVER specifies dividing the rows into groups, or partitions, that share the same values of the PARTITION BY expression(s).</li>
+                        </ul>
+                        <pre><code data-trim>
+SELECT depname, empno, salary, avg(salary) 
+OVER (PARTITION BY depname) 
+FROM empsalary;
+
+  depname  | empno | salary |          avg          
+-----------+-------+--------+-----------------------
+ develop   |    11 |   5200 | 5020.0000000000000000
+ develop   |     7 |   4200 | 5020.0000000000000000
+ develop   |     9 |   4500 | 5020.0000000000000000
+ develop   |     8 |   6000 | 5020.0000000000000000
+ develop   |    10 |   5200 | 5020.0000000000000000
+ personnel |     5 |   3500 | 3700.0000000000000000
+ personnel |     2 |   3900 | 3700.0000000000000000
+ sales     |     3 |   4800 | 4866.6666666666666667
+ sales     |     1 |   5000 | 4866.6666666666666667
+ sales     |     4 |   4800 | 4866.6666666666666667
+(10 rows)
+
+
+SELECT depname, empno, salary, rank() 
+OVER (PARTITION BY depname ORDER BY salary DESC) 
+FROM empsalary;
+
+  depname  | empno | salary | rank 
+-----------+-------+--------+------
+ develop   |     8 |   6000 |    1
+ develop   |    10 |   5200 |    2
+ develop   |    11 |   5200 |    2
+ develop   |     9 |   4500 |    4
+ develop   |     7 |   4200 |    5
+ personnel |     2 |   3900 |    1
+ personnel |     5 |   3500 |    2
+ sales     |     1 |   5000 |    1
+ sales     |     4 |   4800 |    2
+ sales     |     3 |   4800 |    2
+(10 rows)
+
+                        </code></pre>
+                        <aside class="notes">
+                        <small>
+                            <ul>
+                                <li> Normally the avg() would be for all rows in the output. The first three output columns come directly from the table empsalary, and there is one output row for each row in the table. The fourth column represents an average taken across all the table rows that have the same depname value as the current row.</li>
+                                <li> The rank function produces a numerical rank within the current row's partition for each distinct ORDER BY value, in the order defined by the ORDER BY clause. rank needs no explicit parameter, because its behavior is entirely determined by the OVER clause.</li>
+                            </ul>
+                        </small>
+                        </aside>
                     </section>
                     <section>
                         <h2>Common Table Expression</h2>
+                        <small>
+                        <ul>
+                            <li>WITH provides a way to write auxiliary statements for use in a larger query</li>
+                            <li>These statements, referred to as Common Table Expressions or CTEs, can be thought of as defining temporary tables that exist just for one query</li>
+                            <li>WITH queries are useful because they are evaluated only once per execution of the parent query, even if they are referred to more than once by the parent query or sibling WITH queries.</li>
+                        </ul>
+                        <pre><code data-trim>
+WITH regional_sales AS (
+        SELECT region, SUM(amount) AS total_sales
+        FROM orders
+        GROUP BY region
+     ), top_regions AS (
+        SELECT region
+        FROM regional_sales
+        WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
+     )
+SELECT region,
+       product,
+       SUM(quantity) AS product_units,
+       SUM(amount) AS product_sales
+FROM orders
+WHERE region IN (SELECT region FROM top_regions)
+GROUP BY region, product;
+                        </code></pre>
+                        </small>
+                        <aside class="notes">
+                            <small>
+                                <ul>
+                                    <li>Each auxiliary statement in a WITH clause can be its own SELECT statement</li>
+                                    <li>The WITH clause itself is attached to a primary statement that can also be a SELECT</li>
+                                </ul>
+                            </small>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Common Table Expressions</h2>
+                            Allow recursive queries
+                        <pre><code data-trim>
+WITH RECURSIVE t(n) AS (
+    VALUES (1)
+  UNION ALL
+    SELECT n+1 FROM t WHERE n < 100
+)
+SELECT sum(n) FROM t;
+
+ sum  
+------
+ 5050
+(1 row)
+
+                        </code></pre>
+                        <aside class="notes">
+                            Like a normal recursive function, there is an initial condition (VALUES(1)) followed by step to perform that refers back to itself. In this case the WHERE condition provides the exit from recursion.
+                        </aside>
                     </section>
                     <section>
                         <h2>Parallel pg_restore</h2>
-                    </section>
-                    <section>
-                        <h2>Automatic FSM Sizing</h2>
-                        <!-- Possibly table about improved vacuuming here too -->
+                        <ul>
+                            <li>Prior versions, each object was restored serially one after the other</li>
+                            <li>Parallel option tells it to always keep restoring that many objects at all times until complete.</li>
+                            <li>Significantly reduced downtime for major version upgrades</li>
+                        </ul>
+                        <aside class="notes">
+                            <small>
+                            Not just telling it parallel batch sizes. Like multiple assembly lines all running at once. If parallel is set to 10, there are always that many objects being restored. This allows it to keep working on larger tables in the background while smaller tables and all other objects continue to keep restoring and finish.
+                            </small>
+                        </aside>
                     </section>
                     <section>
                         <h2>Additional</h2>
@@ -214,6 +373,7 @@
                             <li>Column permissions</li>
                             <li>Per-database locale settings</li>
                             <li>SSL certificate authentication</li>
+                            <li>Automatic sizing of Free Space Map (eliminated significant administrative headache)</li>
                             <li>Live editing of functions (\ef in psql)</li>
                             <li>New contrib modules: pg_stat_statements, auto_explain, btree_gin</li>
                         </ul>
@@ -222,34 +382,57 @@
                 <!-- end of 8.4 -->
 
                 <section>
+                    <h2>Friendly Reminder</h2>
+                    <ul>
+                        <li>If you are running any version you've seen (or older) you are no longer receiving support</li>
+                        <li>No security updates & no data corruption fixes</li>
+                        <li>Significant performance increases from 8.4 and up</li>
+                        <li>Getting to new version now will make future upgrades much easier (pg_upgrade)</li>
+                        <li>Time to get it over with and pull the bandaid off now!</li>
+                        <li>We can help! - <a href="http://www.omniti.com" target="_blank">omniti.com</a></li>
+                    </ul>
+                </section>
+                <!-- end of friendly reminder -->
+
+                <section>
                     <section>
                         <h1>9.0 Features</h1>
                         (Released Sept 2010 - EOL Sept 2015)
                     </section>
                     <section>
                         <h2>Streaming Replication</h2>
+                        <ul>
+                            <li>Prior replication methods required significant setup and relied on third-party tools (commands given to archive_command)</li>
+                            <li>Simple, TCP-based connection method</li>
+                            <li>Significantly reduced lag time between master & slave systems</li>
+                        </ul>
                     </section>
                     <section>
                         <h2>Hot Standby</h2>
+                        <ul>
+                            <li>Allow readonly connections to slave servers</li>
+                            <li>Offset load on master systems by sending non-write queries to slave(s)</li>
+                            <li>Better security: allow access to data but not to a system that permits writes</li>
                     </section>
                     <section>
                         <h2>pg_upgrade</h2>
+                        <ul>
+                            <li>Previously, all major version (x.x) upgrades required a full dump & restore</li>
+                            <li>Can either copy existing files to new data directory or can use hard links to reuse old files</li>
+                            <li>Link method can allow very quick upgrade of large databases (ex: 700GB in &lt; 5min) </li>
+                            <li>Minimum version to use: 8.4.7. Anything older still requires dump & restore</li>
                     </section>
-                    <section>
-                        <h2>Enhanced permission management</h2>
-                        GRANT/REVOKE IN SCHEMA, DEFAULT PRIVILEGES
-                    </section>
-                    <section>
-                        <h2>Anonymous code blocks</h2>
-                        <aside class="notes">
-                            Mention that PL/pgSQL language is now automatically installed to all databases
-                        </aside>
-                    </section> 
                     <section>
                         <h2>Additional</h2>
                         <ul>
+                            <li>Enhanced permissions management</li>
+                            <ul>
+                                <li>Grant to all objects in schema with single command</li>
+                                <li>Alter initial, default privileges of objects created by specific roles</li>
+                            </ul>
                             <li>Better VACUUM FULL</li>
                             <li>Windows 64-bit support</li>
+                            <li>Anonymous code blocks (DO statement)</li>
                             <li>Deferrable unique constraints</li>
                             <li>Enhanced EXPLAIN. Export in JSON, XML or YAML</li>
                         </ul>
@@ -272,18 +455,54 @@
                     </section>
                     <section>
                         <h2>Foreign Data Wrappers</h2>
+                        <ul>
+                            <li>SQL/MED (Management of External Data) part of SQL Standard</li>
+                            <li>Connect to remote databases/filesystems as if they were local tables inside PostgreSQL</li>
+                            <li>Oracle, MySQL, SQL Server, SQLite, MongoDB, Redis, CSV Files, Twitter, etc</li>
+                            <li>Joins & conditions pushed to remote system</li>
+                            <li>Still performance issues joining local tables w/ remote</li>
+                            <li>Ease the migration to PostgreSQL from different databases</li>
+                        </ul>
                     </section>
                     <section>
                         <h2>Extensions</h2>
+                        <ul>
+                            <li>Package related objects into a managed bundle</li>
+                            <li>Versioned</li>
+                            <ul>
+                                <li>Ensure all systems have the same code</li>
+                                <li>Controlled upgrades & downgrades</li>
+                            </ul>
+                            <li>All contrib modules are now extensions</li>
+                            <li>Examples: <a href="http://reorg.github.io/pg_repack/" target="_blank">pg_repack</a>, <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a></li>   
+                        </ul>
                     </section>
                     <section>
                         <h2>Writable CTE</h2>
+                        <ul>
+                            <li>WITH statements can now contain INSERT, UPDATE & DELETE</li>
+                            <li>Use RETURNING clause to do fun things</li>
+                        </ul>
+                        <pre><code data-trim>
+WITH moved_rows AS (
+    DELETE FROM products
+    WHERE
+        "date" >= '2010-10-01' AND
+        "date" < '2010-11-01'
+    RETURNING *
+)
+INSERT INTO products_log
+SELECT * FROM moved_rows;
+                        </code></pre>
+                        <aside class="notes">
+                            Rows deleted in WITH statement are returned by RETURNING to be used by the SELECT statement to populate another table that tracks deletes
+                        </aside>
                     </section>
                     <section>
                         <h2>Additional</h2>
                         <ul>
                             <li>Synchronous Replication</li>
-                            <li>True serializable isolation</li>
+                            <li>True serializable transaction isolation</li>
                             <li>Unlogged tables</li>
                         </ul>
                     </section>
@@ -297,9 +516,140 @@
                     </section>
                     <section>
                         <h2>Range Data Type</h2>
+                        <ul>
+                            <li>Data type representing a range of values of some element type (time, id, custom) </li>
+                            <li>Scheduling, probablilty, intersection of ordered data</li>
+                        </ul>
+                        <pre><code data-trim>
+-- includes 3, does not include 7, and does include all points in between
+SELECT '[3,7)'::int4range;
+
+-- does not include either 3 or 7, but includes all points in between
+SELECT '(3,7)'::int4range;
+
+-- includes only the single point 4
+SELECT '[4,4]'::int4range;
+
+-- includes no points (and will be normalized to 'empty')
+SELECT '[4,4)'::int4range;
+
+
+CREATE TABLE reservation (room int, during tsrange);
+INSERT INTO reservation VALUES
+    (1108, '[2010-01-01 14:30, 2010-01-01 15:30)');
+
+
+-- Containment
+SELECT int4range(10, 20) @> 3;
+ ?column? 
+----------
+ f
+
+-- Overlaps
+SELECT numrange(11.1, 22.2) && numrange(20.0, 30.0);
+ ?column? 
+----------
+ t
+
+-- Extract the upper bound
+SELECT upper(int8range(15, 25));
+ upper 
+-------
+    25
+
+-- Compute the intersection
+SELECT int4range(10, 20) * int4range(15, 25);
+ ?column? 
+----------
+ [15,20)
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Range Types</h2>
+                        <ul>
+                            <li>Practical Example: Buying a car in budget (Thank you Jonathan Katz)</li>
+                            <li>Without range type, table below would have had to have a min_price & max_price column to track its possible range of values</li>
+                        </ul>
+                        <pre><code data-trim>
+
+test=# SELECT * FROM cars ORDER BY lower(cars.price_range);
+ id  | name                | price_range
+-----+---------------------+-----------------
+ 2   | Buick Skylark       | [2000,4001)
+ 3   | Pontiac GTO         | [5000,7501)
+ 4   | Chevrolet Camero    | [10000,12001)
+ 5   | Ford Mustang        | [11000,15001)
+ 6   | Lincoln Continental | [12000,14001)
+ 7   | BMW M3              | [35000,42001)
+ 8   | Audi RS4            | [41000,45001)
+ 9   | Porsche 911         | [47000,58001)
+ 10  | Lamborghini LP700   | [385000,400001)
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Range Type</h2>
+                        <ul>
+                            <li>Budget of $13,000 - $15,000</li>
+                            <li>Find all cars that have any values in that price range</li>
+                            <li>With old min_price / max_price columns, you write fun queries like this:</li>
+                        </ul>
+                        <pre><code data-trim>
+SELECT *
+FROM cars
+WHERE
+    (
+        cars.min_price ≤ 13000 AND
+        cars.min_price ≤ 15000 AND
+        cars.max_price ≥ 13000 AND
+        cars.max_price ≤ 15000
+    ) OR
+    (
+        cars.min_price ≤ 13000 AND
+        cars.min_price ≤ 15000 AND
+        cars.max_price ≥ 13000 AND
+        cars.max_price ≥ 15000
+    ) OR
+    (
+        cars.min_price ≥ 13000 AND
+        cars.min_price ≤ 15000 AND
+        cars.max_price ≥ 13000 AND
+        cars.max_price ≤ 15000
+    ) OR
+    (
+        cars.min_price ≥ 13000 AND
+        cars.min_price ≤ 15000 AND
+        cars.max_price ≥ 13000 AND
+        cars.max_price ≥ 15000
+    )
+ORDER BY cars.min_price;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Range Types</h2>
+                        <ul>
+                            <li>Range types & operators make this just slightly easier</li>
+                        </ul>
+                        <pre><code data-trim>
+SELECT *
+FROM cars
+WHERE cars.price_range && int4range(13000, 15000, '[]')
+ORDER BY lower(cars.price_range);
+
+ id | name                | price_range
+----+---------------------+---------------
+ 5  | Ford Mustang        | [11000,15001)
+ 6  | Lincoln Continental | [12000,14001)
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Cascading Replication</h2>
+                        <ul>
+                            <li>Database can be a streaming slave of another slave</li>
+                            <li>Every streaming slave off of a master causes additional load for reading its WAL stream</li>
+                            <li>Distribute slave load among several systems in large, multi-cluster setups</li>
+                        </ul>
                     </section>
                     <section>
                         <h2>Additional</h2>
@@ -318,9 +668,37 @@
                     </section>
                     <section>
                         <h2>Reduce System V shared memory</h2>
+                        <ol>
+                            <li>Install OS</li>
+                            <li>Install PostgreSQL package</li>
+                            <li>Do tuning adjustments to fix your shared_buffers (32mb is enough for anyone right?)</li>
+                            <li>Restart to put new settings into place</li>
+                            <li>Uh oh...</li>
+                        </ol>
+                        <pre><code class="md">
+IpcMemoryCreate: shmget(key=5432001, size=415776768, 03600) failed: Invalid argument 
+
+This error usually means that PostgreSQL's request for a shared memory 
+segment exceeded your kernel's SHMMAX parameter. You can either 
+reduce the request size or reconfigure the kernel with larger SHMMAX. 
+To reduce the request size (currently 415776768 bytes), reduce 
+PostgreSQL's shared_buffers parameter (currently 50000) and/or 
+its max_connections parameter (currently 12).
+                        </code></pre>
+                        <ul>
+                            <li>No longer an issue with 9.3</li>
+                            <li><a href="http://rhaas.blogspot.com/2012/06/absurd-shared-memory-limits.html" target="_blank">Blog post by Robert Haas</a> explains the original cause and fix</li>
+                        </ul>
                     </section>
                     <section>
                         <h2>Custom Background Worker</h2>
+                        <ul>
+                            <li>PostgreSQL already used distinct background processes for its own workers (postmaster, writer, logger, autovacuum, stats collector, etc)
+                            <li>Now able to program your workers and let PostgreSQL manage them for you</li>
+                            <li>Auto-start & stop along with the database</li>
+                            <li>Use custom configuration options in postgresql.conf</li>
+                            <li>Example: Working on allowing pg_partman to run as a BGW so separate cronjob is no longer required</li>
+                        </ul>
                     </section>
                     <section>
                         <h2>LATERAL queries</h2>
@@ -330,6 +708,7 @@
                         <h2>Additional</h2>
                         <ul>
                             <li>JSON Operators - getting closer to being useful!</li>
+                            <li>LATERAL queries/joins</li>
                             <li>Writable Foreign Data Wrappers</li>
                             <li>An actual PostgreSQL FDW!</li>
                             <li>Materialized Views (kind of useless)</li>
@@ -348,7 +727,7 @@
                             <li>Benchmark PG vs M - <a href="https://github.com/EnterpriseDB/pg_nosql_benchmark" target="_blank">https://github.com/EnterpriseDB/pg_nosql_benchmark</a>
                         </ul>
                         <li>ALTER SYSTEM command to dynamically change postgresql.conf within the database</li>
-                        <li>Materialzed view refresh no longer blocks reads. Actually useful!</li>
+                        <li>Materialzed view refresh no longer blocks reads. Actually useful! Still not auto-refreshed, tho</li>
                         <li>Dynamic loading/unloading of Bacground Workers</li>
                         <li>Logical decoding in WAL stream. First steps to native logical replication & multi-master</li>
                     </ul>
