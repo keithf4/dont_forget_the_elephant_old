@@ -121,7 +121,9 @@
                         </ul>
                        <aside class="notes">
                            <ul>
+                               <small>
                                <li>Savepoints allow specific parts of a transaction to be aborted without affecting the remainder of the transaction. Prior releases had no such capability; there was no way to recover from a statement failure within a transaction except by aborting the whole transaction. This feature is valuable for application writers who require error recovery within a complex transaction.</li>
+                               </small>
                            </ul>
                        </aside>
                     </section>
@@ -135,15 +137,17 @@
                     </section>
                     <section>
                         <ul>
-                            <li>Greatly improved memory management for increased concurrency performance</li>
                             <li>Two-phase commit</li>
-                            <li>Role systems simplifies separate user/group system</li>
+                            <li>Role system simplified separate user/group</li>
+                            <li>Greatly improved memory management for increased concurrency performance</li>
                             <li>Auto-vacuum moved into main server (was contrib module)</li>
                         </ul>
                         <aside class="notes">
                             <ul>
-                                <li>Access to the shared buffer cache was identified as a significant scalability problem, particularly on multi-CPU systems. In this release, the way that locking is done in the buffer manager has been overhauled to reduce lock contention and improve scalability. The buffer manager has also been changed to use a "clock sweep" replacement policy.</li>
+                                <small>
                                 <li>Two-phase commit allows transactions to be "prepared" on several computers, and once all computers have successfully prepared their transactions (none failed), all transactions can be committed. Even if a machine crashes after a prepare, the prepared transaction can be committed after the machine is restarted. New syntax includes PREPARE TRANSACTION and COMMIT/ROLLBACK PREPARED. A new system view pg_prepared_xacts has also been added.</li>
+                                <li>Access to the shared buffer cache was identified as a significant scalability problem, particularly on multi-CPU systems. In this release, the way that locking is done in the buffer manager has been overhauled to reduce lock contention and improve scalability. The buffer manager has also been changed to use a "clock sweep" replacement policy.</li>
+                            </small>
                             </ul>
                         </aside>
                     </section>
