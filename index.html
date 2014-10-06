@@ -102,7 +102,7 @@
                             <li>Extensions</li>
                             <li>Background Workers</li>
                         </ul>
-                        <li>Mailing Lists, IRC, <a href="http://wiki.postgresql.org" target="_blank">Wiki</a>, <a href="http://planet.postgresql.org" target="_blank">planet.postgresql.org</a>, Conferences</li>
+                        <li><a href="http://www.postgresql.org/list/" target="_blank">Mailing Lists</a>, <a href="http://www.postgresql.org/community/irc/" target="_blank">IRC</a>, <a href="http://wiki.postgresql.org" target="_blank">Wiki</a>, <a href="http://planet.postgresql.org" target="_blank">planet.postgresql.org</a>, <a href="https://wiki.postgresql.org/wiki/Events" target="_blank">Conferences & User Groups</a></li>
                     </ul>
                 </section>
 
@@ -693,7 +693,7 @@ its max_connections parameter (currently 12).
                     <section>
                         <h2>Custom Background Worker</h2>
                         <ul>
-                            <li>PostgreSQL already used distinct background processes for its own workers (postmaster, writer, logger, autovacuum, stats collector, etc)
+                            <li>PostgreSQL already used distinct background processes for its own inner workings (postmaster, writer, logger, autovacuum, stats collector, etc)
                             <li>Now able to program your workers and let PostgreSQL manage them for you</li>
                             <li>Auto-start & stop along with the database</li>
                             <li>Use custom configuration options in postgresql.conf</li>
@@ -703,7 +703,7 @@ its max_connections parameter (currently 12).
                     <section>
                         <h2>Additional</h2>
                         <ul>
-                            <li>JSON Operators - getting closer to being useful!</li>
+                            <li>JSON Operators - Actually useful!</li>
                             <li>LATERAL queries/joins</li>
                             <li>Writable Foreign Data Wrappers</li>
                             <li>An actual PostgreSQL FDW!</li>
@@ -716,18 +716,26 @@ its max_connections parameter (currently 12).
                 <!-- end of 9.3 -->
 
                 <section>
-                    <h2>Upcoming 9.4 Features</h2>
-                    (ETA 4Q 2014)
-                    <ul>
-                        <li>Binary JSON data type. Actually useful! Replace MongoDB.</li>
+                    <section>
+                        <h1>9.4 Features</h1>
+                        (ETA 4Q 2014)
+                    </section>
+                    <section>
+                        <h2>Upcoming 9.4 Features</h2>
                         <ul>
-                            <li>Benchmark PG vs M - <a href="https://github.com/EnterpriseDB/pg_nosql_benchmark" target="_blank">https://github.com/EnterpriseDB/pg_nosql_benchmark</a>
+                            <li>Binary JSON data type. Even more useful! Replace MongoDB.</li>
+                            <ul>
+                                <li>Benchmark PG vs Mongo - <a href="https://github.com/EnterpriseDB/pg_nosql_benchmark" target="_blank">https://github.com/EnterpriseDB/pg_nosql_benchmark</a>
+                            </ul>
+                            <li>ALTER SYSTEM command to dynamically change postgresql.conf within the database</li>
+                            <li>Materialzed view refresh no longer blocks reads.</li>
+                            <ul>
+                                <li>Actually useful! Still not auto-refreshed, tho</li>
+                            </ul>
+                            <li>Dynamic loading/unloading of Background Workers</li>
+                            <li>Logical decoding in WAL stream. First steps to native logical replication & multi-master</li>
                         </ul>
-                        <li>ALTER SYSTEM command to dynamically change postgresql.conf within the database</li>
-                        <li>Materialzed view refresh no longer blocks reads. Actually useful! Still not auto-refreshed, tho</li>
-                        <li>Dynamic loading/unloading of Background Workers</li>
-                        <li>Logical decoding in WAL stream. First steps to native logical replication & multi-master</li>
-                    </ul>
+                    </section>
                 </section>
                 <!-- end of 9.4 -->
 
@@ -739,6 +747,7 @@ its max_connections parameter (currently 12).
                         <li>PostgreSQL Extension Network - <a href="http://pgxn.org" target="_blank">pgxn.org</a></li>
                         <li>OmniTI - <a href="http://www.omniti.com" target="_blank">omniti.com</a></li>
                         <li>Me! - <a href="http://www.keithf4.com" target="_blank">keithf4.com</a> / <a href="http://twitter.com/keithf4" target="_blank">@keithf4</a></li> 
+                        <li>Make cool presentations like this - <a href="https://github.com/hakimel/reveal.js/" target="_blank">reveal.js</a></li>
                     </ul>
                 </section>
             </div> 
