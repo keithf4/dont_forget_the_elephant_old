@@ -15,7 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <link rel="stylesheet" href="css/reveal.min.css">
-        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+        <link rel="stylesheet" href="css/theme/omniti.css" id="theme">
 
         <!-- For syntax highlighting -->
         <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -30,6 +30,10 @@
                 document.getElementsByTagName( 'head' )[0].appendChild( link );
             }
         </script>
+
+        <style>
+            #li30 li { line-height:30px }
+        </style>
 
         <!--[if lt IE 9]>
         <script src="lib/js/html5shiv.js"></script>
@@ -388,31 +392,31 @@ FROM empsalary;
                     </section>
                     <section>
                         <h2>Common Table Expression</h2>
-                        <small>
-                        <ul>
-                            <li>WITH provides a way to write auxiliary statements for use in a larger query</li>
-                            <li>These statements, referred to as Common Table Expressions or CTEs, can be thought of as defining temporary tables that exist just for one query</li>
-                            <li>WITH queries are useful because they are evaluated only once per execution of the parent query, even if they are referred to more than once by the parent query or sibling WITH queries.</li>
-                        </ul>
-                        <pre><code data-trim>
-WITH regional_sales AS (
-        SELECT region, SUM(amount) AS total_sales
-        FROM orders
-        GROUP BY region
-     ), top_regions AS (
-        SELECT region
-        FROM regional_sales
-        WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
-     )
-SELECT region,
-       product,
-       SUM(quantity) AS product_units,
-       SUM(amount) AS product_sales
-FROM orders
-WHERE region IN (SELECT region FROM top_regions)
-GROUP BY region, product;
-                        </code></pre>
-                        </small>
+                        <div id="li30">
+                            <ul style="font-size:25px">
+                                <li>WITH provides a way to write auxiliary statements for use in a larger query</li>
+                                <li>These statements, referred to as Common Table Expressions or CTEs, can be thought of as defining temporary tables that exist just for one query</li>
+                                <li>WITH queries are useful because they are evaluated only once per execution of the parent query, even if they are referred to more than once by the parent query or sibling WITH queries.</li>
+                            </ul>
+                            <pre><code data-trim>
+    WITH regional_sales AS (
+            SELECT region, SUM(amount) AS total_sales
+            FROM orders
+            GROUP BY region
+         ), top_regions AS (
+            SELECT region
+            FROM regional_sales
+            WHERE total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
+         )
+    SELECT region,
+           product,
+           SUM(quantity) AS product_units,
+           SUM(amount) AS product_sales
+    FROM orders
+    WHERE region IN (SELECT region FROM top_regions)
+    GROUP BY region, product;
+                            </code></pre>
+                        </div>
                         <aside class="notes">
                             <small>
                                 <ul>
@@ -661,7 +665,7 @@ SELECT int4range(10, 20) * int4range(15, 25);
                     <section>
                         <h2>Range Types</h2>
                         <ul>
-                            <li>Practical Example: Buying a car in budget (Thank you Jonathan Katz)</li>
+                            <li>Practical Example: Buying a car in budget (Thank you <a href="https://twitter.com/jkatz05" target ="_blank">Jonathan Katz</a>)</li>
                             <li>Without range type, table below would have had to have a min_price & max_price column to track its possible range of values</li>
                         </ul>
                         <pre><code data-trim>
@@ -762,7 +766,7 @@ ORDER BY lower(cars.price_range);
                     </section>
                     <section>
                         <h2>Reduce System V shared memory</h2>
-                        <ol>
+                        <ol id="li30" style="font-size:30px">
                             <li>Install OS</li>
                             <li>Install PostgreSQL package</li>
                             <li>Do tuning adjustments to fix your shared_buffers (32mb is enough for anyone right?)</li>
@@ -779,7 +783,7 @@ To reduce the request size (currently 415776768 bytes), reduce
 PostgreSQL's shared_buffers parameter (currently 50000) and/or 
 its max_connections parameter (currently 12).
                         </code></pre>
-                        <ul>
+                        <ul id="li30" style="font-size:30px">
                             <li>No longer an issue with 9.3</li>
                             <li><a href="http://rhaas.blogspot.com/2012/06/absurd-shared-memory-limits.html" target="_blank">Blog post by Robert Haas</a> explains the original cause and fix</li>
                         </ul>
