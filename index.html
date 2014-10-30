@@ -515,7 +515,10 @@ SELECT sum(n) FROM t;
                             <li>Previously, all major version (x.x) upgrades required a full dump & restore</li>
                             <li>Can either copy existing files to new data directory or can use hard links to reuse old files</li>
                             <li>Link method can allow very quick upgrade of large databases (ex: 700GB in &lt; 5min) </li>
-                            <li>Minimum version to use: 8.4.7. Anything older still requires dump & restore</li>
+                            <li>Minimum version to use: 8.4.7</li>
+                            <ul>
+                                <li>Anything older still requires dump & restore</li>
+                            </ul>
                     </section>
                     <section>
                         <h2>Additional</h2>
@@ -773,7 +776,7 @@ ORDER BY lower(cars.price_range);
                             <li>Restart to put new settings into place</li>
                             <li>Uh oh...</li>
                         </ol>
-                        <pre><code class="md">
+                        <pre>
 IpcMemoryCreate: shmget(key=5432001, size=415776768, 03600) failed: Invalid argument 
 
 This error usually means that PostgreSQL's request for a shared memory 
@@ -782,7 +785,7 @@ reduce the request size or reconfigure the kernel with larger SHMMAX.
 To reduce the request size (currently 415776768 bytes), reduce 
 PostgreSQL's shared_buffers parameter (currently 50000) and/or 
 its max_connections parameter (currently 12).
-                        </code></pre>
+                        </pre>
                         <ul id="li30" style="font-size:30px">
                             <li>No longer an issue with 9.3</li>
                             <li><a href="http://rhaas.blogspot.com/2012/06/absurd-shared-memory-limits.html" target="_blank">Blog post by Robert Haas</a> explains the original cause and fix</li>
