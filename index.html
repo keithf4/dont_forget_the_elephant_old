@@ -604,12 +604,14 @@ SELECT * FROM moved_rows;
                             <li>As a side-effect, significantly improves performance!</li>
                             <pre><code data-trim>
 BEFORE:
+BEGIN;
 INSERT INTO users (name, email) VALUES (?,?) RETURNING userid;
 
 INSERT INTO addresses (userid, address, city, state, zip) 
 VALUES (?,?,?,?,?) RETURNING addressid;
 
 INSERT INTO user_history (userid, addressid, action) VALUES (?,?,?) RETURNING historyid;
+COMMIT;
 
 AFTER:
 WITH userdata AS (
