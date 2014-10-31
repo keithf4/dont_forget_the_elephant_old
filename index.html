@@ -598,6 +598,42 @@ SELECT * FROM moved_rows;
                         </aside>
                     </section>
                     <section>
+                        <h2>Writable CTE</h2>
+                        <ul>
+                            <li>Simplify transactional logic that contains multiple, related insert/update/delete statements</li>
+                            <li>As a side-effect, significantly improves performance!</li>
+                            <pre><code data-trim>
+BEFORE:
+INSERT INTO users (name, email) VALUES (?,?) RETURNING userid;
+
+INSERT INTO addresses (userid, address, city, state, zip) 
+VALUES (?,?,?,?,?) RETURNING addressid;
+
+INSERT INTO user_history (userid, addressid, action) VALUES (?,?,?) RETURNING historyid;
+
+AFTER:
+WITH userdata AS (
+  INSERT INTO users (name, email) VALUES (?,?)
+  RETURNING userid
+), addressdata AS (
+  INSERT INTO addresses (userid, address, city, state, zip)
+  SELECT userid,?,?,?,?
+  FROM userdata
+  RETURNING addressid 
+), historydata AS (
+  INSERT INTO user_history (userid, addressid, action)
+  SELECT userid, addressid,?
+  FROM userdata, addressdata 
+  RETURNING historyid
+)
+SELECT userid, addressid, history id 
+FROM userdata, addressdata, historydata;
+                            </code></pre>
+                        </ul>
+
+
+                    </section>
+                    <section>
                         <h2>Additional</h2>
                         <ul>
                             <li>Synchronous Replication</li>
