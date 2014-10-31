@@ -632,6 +632,9 @@ SELECT userid, addressid, history id
 FROM userdata, addressdata, historydata;
                             </code></pre>
                         </ul>
+                        <aside class="notes">
+                            BEFORE set of queries is even slower if coming from an application. Roundtrip on network for each statement.
+                        </aside>
 
 
                     </section>
