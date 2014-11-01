@@ -532,7 +532,7 @@ SELECT sum(n) FROM t;
                             <li>Windows 64-bit support</li>
                             <li>Anonymous code blocks (DO statement)</li>
                             <li>Deferrable unique constraints</li>
-                            <li>Enhanced EXPLAIN. Export in JSON, XML or YAML</li>
+                            <li>Enhanced EXPLAIN plans. Export in JSON, XML or YAML</li>
                         </ul>
 
                        <aside class="notes">
@@ -573,7 +573,7 @@ SELECT sum(n) FROM t;
                                 <li>Controlled upgrades & downgrades</li>
                             </ul>
                             <li>All contrib modules are now extensions</li>
-                            <li>Examples: <a href="http://reorg.github.io/pg_repack/" target="_blank">pg_repack</a>, <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a></li>   
+                            <li>Examples: <a href="http://postgis.net/" target="_blank">PostGIS</a>, <a href="http://reorg.github.io/pg_repack/" target="_blank">pg_repack</a>, <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a></li>   
                         </ul>
                     </section>
                     <section>
@@ -633,7 +633,11 @@ FROM userdata, addressdata, historydata;
                             </code></pre>
                         </ul>
                         <aside class="notes">
-                            BEFORE set of queries is even slower if coming from an application. Roundtrip on network for each statement.
+                        <small><ul>
+                                <li>BEFORE set of queries is even slower if coming from an application. Roundtrip on network for each statement.</li>
+                                <li>Be careful with multiple update statements. If CTE doesn't depend on another running first, postgres doesn't guarentee order of execution. Can lead to deadlocks.</li>
+                            </ul>
+                        </small>
                         </aside>
 
 
@@ -836,10 +840,10 @@ its max_connections parameter (currently 12).
                         <h2>Custom Background Worker</h2>
                         <ul>
                             <li>PostgreSQL already used distinct background processes for its own inner workings (postmaster, writer, logger, autovacuum, stats collector, etc)
-                            <li>Now able to program your workers and let PostgreSQL manage them for you</li>
+                            <li>Now able to program your own workers and let PostgreSQL manage them for you</li>
                             <li>Auto-start & stop along with the database</li>
                             <li>Use custom configuration options in postgresql.conf</li>
-                            <li>Example: Working on allowing pg_partman to run as a BGW so separate cronjob is no longer required</li>
+                            <li>Example: Working on allowing <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a> partition maintenance to run as a BGW so separate cronjob is no longer required</li>
                         </ul>
                     </section>
                     <section>
@@ -909,6 +913,7 @@ its max_connections parameter (currently 12).
                 progress: true,
                 history: true,
                 center: true,
+                slideNumber: true,
 
                 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
                 transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
