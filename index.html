@@ -75,18 +75,15 @@
                             <li>Surge Conference</li>
                             <ul>
                                 <li> <a href="http://omniti.com/surge">http://surge.omniti.com</a></li>
-                                <li> Annually in Sept</li>
+                                <li>Annually in Sept</li>
                             </ul>
                             <li>We're hiring!</li>
                             <ul>
                                 <li><a href="http://omniti.com/is/hiring">http://omniti.com/is/hiring</a></li>
-                                <li>SysAdmins, DBAs, Developers
+                                <li>SysAdmins, DBAs, Developers, Kernel Hackers
                         </ul>
                     </p>
 
-                    <aside class="notes">
-                        Also mention Linux kernel engineers for hire
-                    </aside>
                 </section>
 
                 <section data-background="css/theme/omniti_bg_logo.png">
@@ -195,7 +192,7 @@
                             </tr>
                             <tr>
                                 <td>PostgreSQL 6.3</td>
-                                <td>Mark 1998</td>
+                                <td>March 1998</td>
                                 <td>6.3.2</td>
                                 <td>March 2003</td>
                             </tr>
@@ -461,7 +458,7 @@ SELECT sum(n) FROM t;
                         </aside>
                     </section>
                     <section>
-                        <h2>Additional</h2>
+                        <h2>Additional 8.4 Features</h2>
                         <ul>
                             <li>Default & variadic parameters for functions</li>
                             <li>Column permissions</li>
@@ -479,6 +476,7 @@ SELECT sum(n) FROM t;
                     <h2>Friendly Reminder</h2>
                     <ul>
                         <li>If you are running any version &lt;= 8.4, you are no longer receiving support</li>
+                        <li>9.0 support ends THIS MONTH (Sept 2015)</li>
                         <li>No security updates & no data corruption fixes!</li>
                         <li>Significant performance increases from 8.4 and up</li>
                         <li>Getting to new version now will make future upgrades much easier (pg_upgrade)</li>
@@ -492,14 +490,14 @@ SELECT sum(n) FROM t;
                     <section>
                         <h1>9.0 Features</h1>
                         Released Sept 2010 - EOL Sept 2015<br />
-                        Current Release 9.0.18
+                        Current Release 9.0.22
                     </section>
                     <section>
                         <h2>Streaming Replication</h2>
                         <ul>
                             <li>Prior replication methods required significant setup and relied on third-party tools (commands given to archive_command)</li>
                             <li>Simple, TCP-based connection method</li>
-                            <li>Significantly reduced lag time between master & slave systems</li>
+                            <li>Significantly reduced lag time between master & slave systems (less than 1 second)</li>
                         </ul>
                     </section>
                     <section>
@@ -514,14 +512,14 @@ SELECT sum(n) FROM t;
                         <ul>
                             <li>Previously, all major version (x.x) upgrades required a full dump & restore</li>
                             <li>Can either copy existing files to new data directory or can use hard links to reuse old files</li>
-                            <li>Link method can allow very quick upgrade of large databases (ex: 700GB in &lt; 5min) </li>
+                            <li>Link method can allow very quick upgrade of large databases (ex: 1.2TB in &lt; 2min; does not include stats update) </li>
                             <li>Minimum version to use: 8.4.7</li>
                             <ul>
                                 <li>Anything older still requires dump & restore</li>
                             </ul>
                     </section>
                     <section>
-                        <h2>Additional</h2>
+                        <h2>Additional 9.0 Features</h2>
                         <ul>
                             <li>Enhanced permissions management</li>
                             <ul>
@@ -550,7 +548,7 @@ SELECT sum(n) FROM t;
                     <section>
                         <h1>9.1 Features</h1>
                         Released Sept 2011 - EOL Sept 2016<br />
-                        Current verison 9.1.14
+                        Current verison 9.1.18
                     </section>
                     <section>
                         <h2>Foreign Data Wrappers</h2>
@@ -573,7 +571,7 @@ SELECT sum(n) FROM t;
                                 <li>Controlled upgrades & downgrades</li>
                             </ul>
                             <li>All contrib modules are now extensions</li>
-                            <li>Examples: <a href="http://postgis.net/" target="_blank">PostGIS</a>, <a href="http://reorg.github.io/pg_repack/" target="_blank">pg_repack</a>, <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a></li>   
+                            <li>Examples: <a href="http://postgis.net/" target="_blank">PostGIS</a>, <a href="http://reorg.github.io/pg_repack/" target="_blank">pg_repack</a>, <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a></li> 
                         </ul>
                     </section>
                     <section>
@@ -628,22 +626,19 @@ WITH userdata AS (
   FROM userdata, addressdata 
   RETURNING historyid
 )
-SELECT userid, addressid, history id 
+SELECT userid, addressid, historyid 
 FROM userdata, addressdata, historydata;
                             </code></pre>
                         </ul>
                         <aside class="notes">
-                        <small><ul>
+                            <small><ul>
                                 <li>BEFORE set of queries is even slower if coming from an application. Roundtrip on network for each statement.</li>
                                 <li>Be careful with multiple update statements. If CTE doesn't depend on another running first, postgres doesn't guarentee order of execution. Can lead to deadlocks.</li>
-                            </ul>
-                        </small>
+                            </ul></small>
                         </aside>
-
-
                     </section>
                     <section>
-                        <h2>Additional</h2>
+                        <h2>Additional 9.1 Features</h2>
                         <ul>
                             <li>Synchronous Replication</li>
                             <li>True serializable transaction isolation</li>
@@ -657,7 +652,7 @@ FROM userdata, addressdata, historydata;
                     <section>
                         <h1>9.2 Features</h1>
                         Released Sept 2012 - EOL Sept 2017<br />
-                        Current version 9.2.9
+                        Current version 9.2.13
                     </section>
                     <section>
                         <h2>Range Data Type</h2>
@@ -797,7 +792,7 @@ ORDER BY lower(cars.price_range);
                         </ul>
                     </section>
                     <section>
-                        <h2>Additional</h2>
+                        <h2>Additional 9.2 Features</h2>
                         <ul>
                             <li>Index-Only scan</li>
                             <li>JSON Data Type (limited)</li>
@@ -810,7 +805,7 @@ ORDER BY lower(cars.price_range);
                     <section>
                         <h1>9.3 Features</h1>
                         Released Sept 2013 - EOL Sept 2018<br />
-                        Current Version 9.3.5
+                        Current Version 9.3.9
                     </section>
                     <section>
                         <h2>Reduce System V shared memory</h2>
@@ -843,11 +838,11 @@ its max_connections parameter (currently 12).
                             <li>Now able to program your own workers and let PostgreSQL manage them for you</li>
                             <li>Auto-start & stop along with the database</li>
                             <li>Use custom configuration options in postgresql.conf</li>
-                            <li>Example: Working on allowing <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a> partition maintenance to run as a BGW so separate cronjob is no longer required</li>
+                            <li>Example: <a href="https://github.com/keithf4/pg_partman" target="_blank">pg_partman</a> now has a BGW scheduler so separate cronjob is no longer required for partition maintenance</li>
                         </ul>
                     </section>
                     <section>
-                        <h2>Additional</h2>
+                        <h2>Additional 9.3 Features</h2>
                         <ul>
                             <li>JSON Operators - Actually useful!</li>
                             <li>LATERAL queries/joins</li>
@@ -864,28 +859,117 @@ its max_connections parameter (currently 12).
                 <section data-background="css/theme/omniti_bg_logo.png">
                     <section>
                         <h1>9.4 Features</h1>
-                        ETA 4Q 2014<br />
-                        Current Version 9.4.beta3
+                        Released Dec 2014 - EOL Dec 2019<br />
+                        Current Version 9.4.4
                     </section>
                     <section>
-                        <h2>Upcoming 9.4 Features</h2>
+                        <h2>Binary JSON data type</h2>
                         <ul>
-                            <li>Binary JSON data type. Even more useful! Replace MongoDB.</li>
+                            <li>Even more useful! Possibly replace MongoDB.</li>
                             <ul>
-                                <li>Benchmark PG vs Mongo - <a href="https://github.com/EnterpriseDB/pg_nosql_benchmark" target="_blank">https://github.com/EnterpriseDB/pg_nosql_benchmark</a>
+                                <li>Benchmark PG vs Mongo - <a href="https://github.com/EnterpriseDB/pg_nosql_benchmark" target="_blank">https://github.com/EnterpriseDB/pg_nosql_benchmark</a></li>
                             </ul>
+                            <li>Same data type validation as before</li>
+                            <li>Stored in format that does not require reparsing original text</li>
+                            <li>Allows indexing and more efficient storage</li>
+                            <li>New operators and functions for better interaction with JSON data</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Binary JSON data type</h2>
+                        <ul>
+                            <li>Great blogpost with JSONB examples: <a href="http://blog.codeship.com/unleash-the-power-of-storing-json-in-postgres/" target="_blank">Unleash the Power of Storing JSON in Postgres</a></li>
+                        </ul>
+                       <pre><code data-trim>
+CREATE TABLE cards (
+  id integer NOT NULL,
+  board_id integer NOT NULL,
+  data jsonb
+);
+ 
+INSERT INTO cards VALUES (1, 1, '{"name": "Paint house", "tags": ["Improvements", "Office"], "finished": true}');
+
+SELECT data->>'name' AS name FROM cards;
+
+SELECT count(*) FROM cards WHERE data->>'finished' = 'true';
+
+Aggregate (cost=335.12..335.13 rows=1 width=0) (actual time=4.421..4.421 rows=1 loops=1) -> Seq Scan on cards (cost=0.00..335.00 rows=50 width=0) (actual time=0.016..3.961 rows=4938 loops=1) 
+    Filter: ((data ->> 'finished'::text) = 'true'::text) 
+    Rows Removed by Filter: 5062 
+Planning time: 0.071 ms 
+Execution time: 4.465 ms
+
+CREATE INDEX idxfinished ON cards ((data->>'finished'));
+
+Aggregate (cost=118.97..118.98 rows=1 width=0) (actual time=2.122..2.122 rows=1 loops=1) -> Bitmap Heap Scan on cards (cost=4.68..118.84 rows=50 width=0) (actual time=0.711..1.664 rows=4938 loops=1) 
+    Recheck Cond: ((data ->> 'finished'::text) = 'true'::text) 
+    Heap Blocks: exact=185 
+    -> Bitmap Index Scan on idxfinished (cost=0.00..4.66 rows=50 width=0) (actual time=0.671..0.671 rows=4938 loops=1) 
+        Index Cond: ((data ->> 'finished'::text) = 'true'::text) 
+Planning time: 0.084 ms 
+Execution time: 2.199 ms
+                        </code> </pre>
+
+                    </section>
+                    <section>
+                        <h2>Replication Slots</h2>
+                        <ul>
+                            <li>Allows master servers to be aware of slave replication state</li>
+                            <li>Master keeps WAL in pg_xlogs for known slaves if they disconnect</li>
+                            <li>Previously had to either set wal_keep_segments high or have secondary WAL storage to avoid slave rebuild</li>
+                            <li>Ties in with upcoming logical replication features</li>
+                        </ul>
+
+                    </section>
+                    <section>
+                        <h2>Additional 9.4 Features</h2>
+                        <ul>
                             <li>ALTER SYSTEM command to dynamically change postgresql.conf within the database</li>
                             <li>Materialzed view refresh no longer blocks reads.</li>
                             <ul>
-                                <li>Actually useful! Still not auto-refreshed, tho</li>
+                                <li>Actually useful! Still not auto-refreshed</li>
                             </ul>
                             <li>Dynamic loading/unloading of Background Workers</li>
-                            <li>Logical decoding in WAL stream. First steps to native logical replication & multi-master</li>
+                            <li>pg_prewarm</li>
+                            <ul>
+                                <li>On restart shared_buffers is emptied</li>
+                                <li>Allows immediate loading of relation data back into the buffers to "warm" them up</li>
+                            </ul>
+                            <li>Logical decoding in WAL stream. First steps to native logical replication & multi-master.</li>
+                            <ul>
+                                <li> <a href="http://2ndquadrant.com/en/resources/bdr/" target="_blank">BDR Extension</a> from 2ndQuadrant.</li>
+                                <li>Talk from Simon Riggs @ 1:30pm in State Room 4</li>
+                            </ul>
                         </ul>
                     </section>
                 </section>
                 <!-- end of 9.4 -->
 
+                <section data-background="css/theme/omniti_bg_logo.png">
+                    <section>
+                        <h1>9.5 Features</h1>
+                        ETA 4Q 2015<br />
+                        Current Version 9.5alpha2
+                    </section>
+
+                    <section>
+                        <h2>Upcoming 9.5 Features</h2>
+                        <ul>
+                            <li>INSERT ... ON CONFLICT ... (UPSERT)</li>
+                            <ul>
+                                <li>Talk from Peter Geoghegan @ 1:30pm in Houston Ballroom B/C</li>
+                            </ul>
+                            <li>Row Level Security (RLS)</li>
+                            <li>checkpoint_segments replaced by min_wal_size & max_wal_size</li>
+                            <li>Sorting Speed Imporvements (Abbreviated Keys)</li>
+                            <li>pg_rewind</li>
+                            <li>Foreign Table Inheritance</li>
+                            <li>Block Range Indexes (BRIN)</li>
+                        </ul>
+                    </section>
+
+                </section>
+                
                 <section data-background="css/theme/omniti_bg_logo.png">
 
                     <ul>
@@ -928,10 +1012,10 @@ its max_connections parameter (currently 12).
                     { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
                     { src: 'plugin/highlight/highlight.js', async: true, callback: function() { 
-                            hljs.configure({
+                        hljs.configure({
                                 languages: 'sql'
-                            })
-                            hljs.initHighlightingOnLoad(); } },
+                                })
+                        hljs.initHighlightingOnLoad(); } },
                     { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
                     { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
                 ]
