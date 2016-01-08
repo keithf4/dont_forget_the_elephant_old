@@ -473,24 +473,10 @@ SELECT sum(n) FROM t;
                 <!-- end of 8.4 -->
 
                 <section data-background="css/theme/omniti_bg_logo.png">
-                    <h2>Friendly Reminder</h2>
-                    <ul>
-                        <li>If you are running any version &lt;= 8.4, you are no longer receiving support</li>
-                        <li>9.0 support ends THIS MONTH (Sept 2015)</li>
-                        <li>No security updates & no data corruption fixes!</li>
-                        <li>Significant performance increases from 8.4 and up</li>
-                        <li>Getting to new version now will make future upgrades much easier (pg_upgrade)</li>
-                        <li>Time to get it over with and pull the bandaid off now!</li>
-                        <li>We can help! - <a href="http://www.omniti.com" target="_blank">omniti.com</a></li>
-                    </ul>
-                </section>
-                <!-- end of friendly reminder -->
-
-                <section data-background="css/theme/omniti_bg_logo.png">
                     <section>
                         <h1>9.0 Features</h1>
                         Released Sept 2010 - EOL Sept 2015<br />
-                        Current Release 9.0.22
+                        Final Version 9.0.23
                     </section>
                     <section>
                         <h2>Streaming Replication</h2>
@@ -545,10 +531,23 @@ SELECT sum(n) FROM t;
                 <!-- end of 9.0 -->
 
                 <section data-background="css/theme/omniti_bg_logo.png">
+                    <h2>Friendly Reminder</h2>
+                    <ul>
+                        <li>If you are running any version &lt;= 9.0, you are no longer receiving support</li>
+                        <li>9.0 support ended Sept 2015</li>
+                        <li>No security updates & no data corruption fixes!</li>
+                        <li>Significant performance increases from 8.4 and up</li>
+                        <li>Getting to new version now will make future upgrades much easier (pg_upgrade)</li>
+                        <li>We can help! - <a href="http://www.omniti.com" target="_blank">omniti.com</a></li>
+                    </ul>
+                </section>
+                <!-- end of friendly reminder -->
+
+                <section data-background="css/theme/omniti_bg_logo.png">
                     <section>
                         <h1>9.1 Features</h1>
                         Released Sept 2011 - EOL Sept 2016<br />
-                        Current verison 9.1.18
+                        Current verison 9.1.19
                     </section>
                     <section>
                         <h2>Foreign Data Wrappers</h2>
@@ -642,6 +641,7 @@ FROM userdata, addressdata, historydata;
                         <ul>
                             <li>Synchronous Replication</li>
                             <li>True serializable transaction isolation</li>
+                                <li>Talk on Serialization from Simon Riggs @ 2pm in Room 106</li>
                             <li>Unlogged tables</li>
                         </ul>
                     </section>
@@ -652,7 +652,7 @@ FROM userdata, addressdata, historydata;
                     <section>
                         <h1>9.2 Features</h1>
                         Released Sept 2012 - EOL Sept 2017<br />
-                        Current version 9.2.13
+                        Current version 9.2.14
                     </section>
                     <section>
                         <h2>Range Data Type</h2>
@@ -783,6 +783,7 @@ ORDER BY lower(cars.price_range);
  6  | Lincoln Continental | [12000,14001)
                         </code></pre>
                     </section>
+                    <!--
                     <section>
                         <h2>Cascading Replication</h2>
                         <ul>
@@ -791,6 +792,7 @@ ORDER BY lower(cars.price_range);
                             <li>Distribute slave load among several systems in large, multi-cluster setups</li>
                         </ul>
                     </section>
+                    -->
                     <section>
                         <h2>Additional 9.2 Features</h2>
                         <ul>
@@ -805,7 +807,7 @@ ORDER BY lower(cars.price_range);
                     <section>
                         <h1>9.3 Features</h1>
                         Released Sept 2013 - EOL Sept 2018<br />
-                        Current Version 9.3.9
+                        Current Version 9.3.10
                     </section>
                     <section>
                         <h2>Reduce System V shared memory</h2>
@@ -860,7 +862,7 @@ its max_connections parameter (currently 12).
                     <section>
                         <h1>9.4 Features</h1>
                         Released Dec 2014 - EOL Dec 2019<br />
-                        Current Version 9.4.4
+                        Current Version 9.4.5
                     </section>
                     <section>
                         <h2>Binary JSON data type</h2>
@@ -873,8 +875,11 @@ its max_connections parameter (currently 12).
                             <li>Stored in format that does not require reparsing original text</li>
                             <li>Allows indexing and more efficient storage</li>
                             <li>New operators and functions for better interaction with JSON data</li>
+                            <li>Great blogpost with JSONB examples: <a href="http://blog.codeship.com/unleash-the-power-of-storing-json-in-postgres/" target="_blank">Unleash the Power of Storing JSON in Postgres</a></li>
+                            <li>JSON Use Cases talk from Christophe Pettus @ 3:3pm in Room 106</li>
                         </ul>
                     </section>
+                    <!--
                     <section>
                         <h2>Binary JSON data type</h2>
                         <ul>
@@ -911,6 +916,7 @@ Execution time: 2.199 ms
                         </code> </pre>
 
                     </section>
+                    -->
                     <section>
                         <h2>Replication Slots</h2>
                         <ul>
@@ -937,7 +943,7 @@ Execution time: 2.199 ms
                             <li>Logical decoding in WAL stream. First steps to native logical replication & multi-master.</li>
                             <ul>
                                 <li> <a href="http://2ndquadrant.com/en/resources/bdr/" target="_blank">BDR Extension</a> from 2ndQuadrant.</li>
-                                <li>Talk from Simon Riggs @ 1:30pm in State Room 4</li>
+                                <li>BDR Talk from Joshua Drake @ 12:30pm in Room 107</li>
                             </ul>
                             <li>Distinct output of Planning & Execution time from EXPLAIN ANALYZE output</li>
                         </ul>
@@ -948,28 +954,92 @@ Execution time: 2.199 ms
                 <section data-background="css/theme/omniti_bg_logo.png">
                     <section>
                         <h1>9.5 Features</h1>
-                        ETA 4Q 2015<br />
-                        Current Version 9.5alpha2
+                        Released Jan 2015- EOL Jan 2020<br />
+                        Current Version 9.5.0
                     </section>
 
                     <section>
-                        <h2>Upcoming 9.5 Features</h2>
+                        <h2>UPSERT</h2>
                         <ul>
-                            <li>INSERT ... ON CONFLICT ... (UPSERT)</li>
+                            <li>INSERT ... ON CONFLICT ...</li>
                             <ul>
-                                <li>Talk from Peter Geoghegan @ 1:30pm in Houston Ballroom B/C</li>
+                                <li>ON CONSTRAINT ... (better to name columns)</li>
+                                <li>DO NOTHING</li>
+                                <li>DO UPDATE SET ... [WHERE ...]</li>
                             </ul>
-                            <li>Row Level Security (RLS)</li>
-                            <li>checkpoint_segments replaced by min_wal_size & max_wal_size</li>
+                            <li>"... optimistic variant of regular insertion that first does a pre-check for existing tuples and then attempts an insert."</li>
+                            <li>Not quite the same as MERGE in other databases or as defined in SQL standard. This is an actual upsert</li>
+                            <li>Use cases talk on UPSERT from Peter Goeghegan @ 10:30am tomorrow in Room 106</li>
+                        </section>
+                    </section>
+
+                    <section>
+                        <h2>Row Level Security</h2>
+                        <ul>
+                            <li>Control access to data by conditions on the values of that data</li>
+                            <li>Adds to already extensive privilege controls (database, schema, table, column)</li>
+                            <li>Superusers and object owners bypass RLS. Unless...</li>
+                            <li>New GUC - row_security (ON, OFF, FORCE)</li>
+                            <li>pg_dump sets row_securty to OFF (--enable-row-security)</li>
+                            <li>Multiple policies per table (Results are OR'ed)</li>
+                            <li>BYPASSRLS/NOBYPASSRLS - new role property to allow individual roles to bypass RLS</li>
+                            <li>Row level security shows up in the \d results</li>
+                            <li>Talk on RLS from Joe Conway @ 3:30pm in Room 107</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>BRIN Indexes</h2>
+                        <ul>
+                            <li>Block Range Index / MinMax Index</li>
+                            <li>Stores only the bounds-per-heap-page vs BTree method of one index entry for each value</li>
+                            <li>Configure how many heap pages contribute to index entry</li>
+                            <li>Significantly faster index creation, update &amp; smaller size</li>
+                            <li>Sometimes slower index searches than BTree</li>
+                            <li>Works better with statically ordered data</li>
+                            <li>Really good explanation &amp; examples at <a href="http://pythonsweetness.tumblr.com/post/119568339102/block-range-brin-indexes-in-postgresql-9-5" target="_blank">python sweetness blog</a></li>
+
+                    </section>
+
+                    <section>
+                        <h2>Additional 9.5 Features</h2>
+                        <ul>
                             <li>Sorting Speed Imporvements (Abbreviated Keys)</li>
-                            <li>pg_rewind</li>
-                            <li>Foreign Table Inheritance</li>
-                            <li>Block Range Indexes (BRIN)</li>
+                            <li>checkpoint_segments replaced by min_wal_size & max_wal_size</li>
+                            <li>Additional GROUP BY options (GROUPING SETS, CUBE, ROLLUP)</li>
+                            <li>pg_rewind - no longer have to rebuild failed master scratch</li>
+                            <li>JSONB improvements</li>
+                            <ul>
+                                <li>jsonb_set() - allows in-place editing of JSONB data</li>
+                                <li>jsonb_pretty() - more human readable jsonb output</li>
+                                <li>Even more functions and operators. See Release Notes</li>
+                            </ul>
+                            <li>Foreign Table Inheritance - child tables on remote databases</li>
                         </ul>
                     </section>
 
                 </section>
+                <!-- end of 9.5 -->
                 
+                <section data-background="css/theme/omniti_bg_logo.png">
+                    <section>
+                        <h1>9.6 Features</h1>
+                        Current Status - Development (not even alpha)
+                    </section>
+
+                    <section>
+                        <h2>Upcoming 9.6 Features</h2>
+                        <ul>
+                            <li>9.6 Performance talk from Mark Wong tomorrow @ 3:30pm in Room 106</li>
+                            <li>Parallel Sequential Scan</li>
+                            <li>Support multiple -c & -f options for psql</li>
+                            <li>%n log_line_prefix value for unix epoch</li>
+                            <li>Built in uni-directional logical replication (merge in pglogical extension)</li>
+                        </ul>
+                    </section>
+
+                </section>
+                <!-- end of 9.5 -->
                 <section data-background="css/theme/omniti_bg_logo.png">
 
                     <ul>
