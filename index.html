@@ -80,7 +80,7 @@
                             <li>We're hiring!</li>
                             <ul>
                                 <li><a href="http://omniti.com/is/hiring">http://omniti.com/is/hiring</a></li>
-                                <li>SysAdmins, DBAs, Developers, Kernel Hackers
+                                <li>SysAdmins, DBAs, Developers, Kernel Hackers</li>
                         </ul>
                     </p>
 
@@ -482,7 +482,7 @@ SELECT sum(n) FROM t;
                         <h2>Streaming Replication</h2>
                         <ul>
                             <li>Prior replication methods required significant setup and relied on third-party tools (commands given to archive_command)</li>
-                            <li>Simple, TCP-based connection method</li>
+                            <li>Simpler, TCP-based connection method</li>
                             <li>Significantly reduced lag time between master & slave systems (less than 1 second)</li>
                         </ul>
                     </section>
@@ -554,7 +554,7 @@ SELECT sum(n) FROM t;
                         <ul>
                             <li>SQL/MED (Management of External Data) part of SQL Standard</li>
                             <li>Connect to remote databases/filesystems/services as if they were local tables inside PostgreSQL</li>
-                            <li>Oracle, MySQL, SQL Server, SQLite, MongoDB, Redis, CSV Files, Twitter, etc</li>
+                            <li>Oracle, MySQL, SQL Server, SQLite, MongoDB, Redis, CSV Files, Twitter, Blackhole, etc</li>
                             <li>Joins & conditions pushed to remote system</li>
                             <li>Still performance issues joining local tables w/ remote</li>
                             <li>Ease the migration to PostgreSQL from different databases</li>
@@ -1011,7 +1011,7 @@ Execution time: 2.199 ms
                             <li>Add IF NOT EXISTS clause to CREATE INDEX, CREATE TABLE AS, CREATE SEQUENCE, and CREATE MATERIALIZED VIEW</li>
                             <li>checkpoint_segments replaced by min_wal_size & max_wal_size</li>
                             <li>Additional GROUP BY options (GROUPING SETS, CUBE, ROLLUP)</li>
-                            <li>pg_rewind - no longer have to rebuild failed master scratch</li>
+                            <li>pg_rewind - no longer have to rebuild failed master from scratch</li>
                             <li>JSONB improvements</li>
                             <ul>
                                 <li>jsonb_set() - allows in-place editing of JSONB data</li>
@@ -1036,7 +1036,7 @@ Execution time: 2.199 ms
                         <h2>Upcoming 9.6 Features</h2>
                         <ul>
                             <li>9.6 Performance talk from Mark Wong tomorrow @ 3:30pm in Room 106</li>
-                            <li>Parallel Sequential Scan</li>
+                            <li>Parallel Sequential Scan & Some Joins</li>
                             <li>Support multiple -c & -f options for psql</li>
                             <li>%n log_line_prefix value for unix epoch</li>
                             <li>Built in uni-directional logical replication (merge in pglogical extension)</li>
