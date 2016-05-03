@@ -68,8 +68,8 @@
                         <ul>
                             <li>Full-stack support for high-traffic websites & applications</li>
                             <ul>
-                                <li>Millions of users</li>
-                                <li>Terabytes of data</li>
+                                <li>Millions+ of users</li>
+                                <li>Terabytes+ of data</li>
                                 <li>Gilt, Etsy, Ora.TV, Freelotto</li>
                             </ul>
                             <li>Surge Conference</li>
@@ -444,6 +444,7 @@ SELECT sum(n) FROM t;
                             Like a normal recursive function, there is an initial condition (VALUES(1)) followed by step to perform that refers back to itself. In this case the WHERE condition provides the exit from recursion.
                         </aside>
                     </section>
+                    <!--
                     <section>
                         <h2>Parallel pg_restore</h2>
                         <ul>
@@ -457,9 +458,12 @@ SELECT sum(n) FROM t;
                             </small>
                         </aside>
                     </section>
+                    -->
                     <section>
                         <h2>Additional 8.4 Features</h2>
                         <ul>
+                            <!-- has its own slide above if there's time -->
+                            <li>Parallel pg_restore</li>
                             <li>Default & variadic parameters for functions</li>
                             <li>Column permissions</li>
                             <li>Per-database locale settings</li>
@@ -547,7 +551,7 @@ SELECT sum(n) FROM t;
                     <section>
                         <h1>9.1 Features</h1>
                         Released Sept 2011 - EOL Sept 2016<br />
-                        Current verison 9.1.19
+                        Current verison 9.1.21
                     </section>
                     <section>
                         <h2>Foreign Data Wrappers</h2>
@@ -610,6 +614,7 @@ VALUES (?,?,?,?,?) RETURNING addressid;
 INSERT INTO user_history (userid, addressid, action) VALUES (?,?,?) RETURNING historyid;
 COMMIT;
 
+
 AFTER:
 WITH userdata AS (
   INSERT INTO users (name, email) VALUES (?,?)
@@ -641,9 +646,6 @@ FROM userdata, addressdata, historydata;
                         <ul>
                             <li>Synchronous Replication</li>
                             <li>True serializable transaction isolation</li>
-                            <ul>
-                                <li>Talk on Serialization from Simon Riggs @ 2pm in Room 106</li>
-                            </ul>
                             <li>Unlogged tables</li>
                         </ul>
                     </section>
@@ -654,7 +656,7 @@ FROM userdata, addressdata, historydata;
                     <section>
                         <h1>9.2 Features</h1>
                         Released Sept 2012 - EOL Sept 2017<br />
-                        Current version 9.2.14
+                        Current version 9.2.16
                     </section>
                     <section>
                         <h2>Range Data Type</h2>
@@ -809,7 +811,7 @@ ORDER BY lower(cars.price_range);
                     <section>
                         <h1>9.3 Features</h1>
                         Released Sept 2013 - EOL Sept 2018<br />
-                        Current Version 9.3.10
+                        Current Version 9.3.12
                     </section>
                     <section>
                         <h2>Reduce System V shared memory</h2>
@@ -864,7 +866,7 @@ its max_connections parameter (currently 12).
                     <section>
                         <h1>9.4 Features</h1>
                         Released Dec 2014 - EOL Dec 2019<br />
-                        Current Version 9.4.5
+                        Current Version 9.4.7
                     </section>
                     <section>
                         <h2>Binary JSON data type</h2>
@@ -878,8 +880,8 @@ its max_connections parameter (currently 12).
                             <li>Stored in format that does not require reparsing original text</li>
                             <li>Allows indexing and more efficient storage</li>
                             <li>New operators and functions for better interaction with JSON data</li>
+                            <li>Fields are de-dupped. If you need dupped fields in tact, use normal json type</li>
                             <li>Great blogpost with JSONB examples: <a href="http://blog.codeship.com/unleash-the-power-of-storing-json-in-postgres/" target="_blank">Unleash the Power of Storing JSON in Postgres</a></li>
-                            <li>JSON Use Cases talk from Christophe Pettus @ 3:30pm in Room 106</li>
                         </ul>
                     </section>
                     <!--
@@ -946,7 +948,6 @@ Execution time: 2.199 ms
                             <li>Logical decoding in WAL stream. First steps to native logical replication & multi-master.</li>
                             <ul>
                                 <li> <a href="http://2ndquadrant.com/en/resources/bdr/" target="_blank">BDR Extension</a> from 2ndQuadrant.</li>
-                                <li>BDR Talk from Joshua Drake @ 12:30pm in Room 107</li>
                             </ul>
                             <li>Distinct output of Planning & Execution time from EXPLAIN ANALYZE output</li>
                         </ul>
@@ -958,7 +959,7 @@ Execution time: 2.199 ms
                     <section>
                         <h1>9.5 Features</h1>
                         Released Jan 2016- EOL Jan 2021<br />
-                        Current Version 9.5.0
+                        Current Version 9.5.2
                     </section>
 
                     <section>
@@ -972,7 +973,6 @@ Execution time: 2.199 ms
                             </ul>
                             <li>"... optimistic variant of regular insertion that first does a pre-check for existing tuples and then attempts an insert."</li>
                             <li>Not quite the same as MERGE. This is an actual upsert.</li>
-                            <li>Use cases talk on UPSERT from Peter Goeghegan @ 10:30am tomorrow in Room 106</li>
                         </ul>
                     </section>
 
@@ -987,7 +987,7 @@ Execution time: 2.199 ms
                             <li>Multiple policies per table (Results are OR'ed)</li>
                             <li>BYPASSRLS/NOBYPASSRLS - new role property to allow individual roles to bypass RLS</li>
                             <li>Row level security shows up in the \d results</li>
-                            <li>Talk on RLS from Joe Conway @ 3:30pm in Room 107</li>
+                            <li>Talk on RLS from Joe Conway @ 3:00pm in Room 303</li>
                         </ul>
                     </section>
 
@@ -1001,6 +1001,7 @@ Execution time: 2.199 ms
                             <li>Sometimes slower index searches than BTree</li>
                             <li>Works better with statically ordered data</li>
                             <li>Really good explanation &amp; examples at <a href="http://pythonsweetness.tumblr.com/post/119568339102/block-range-brin-indexes-in-postgresql-9-5" target="_blank">python sweetness blog</a></li>
+                            <li>Talk on using BRIN with geospatial data from Giuseppe Broccolo @ 2:15pm in Room 303</li>
 
                     </section>
 
@@ -1008,10 +1009,10 @@ Execution time: 2.199 ms
                         <h2>Additional 9.5 Features</h2>
                         <ul>
                             <li>Sorting Speed Improvements (Abbreviated Keys)</li>
-                            <li>Add IF NOT EXISTS clause to CREATE INDEX, CREATE TABLE AS, CREATE SEQUENCE, and CREATE MATERIALIZED VIEW</li>
                             <li>checkpoint_segments replaced by min_wal_size & max_wal_size</li>
-                            <li>Additional GROUP BY options (GROUPING SETS, CUBE, ROLLUP)</li>
                             <li>pg_rewind - no longer have to rebuild failed master from scratch</li>
+                            <li>Add IF NOT EXISTS clause to CREATE INDEX, CREATE TABLE AS, CREATE SEQUENCE, and CREATE MATERIALIZED VIEW</li>
+                            <li>Additional GROUP BY options (GROUPING SETS, CUBE, ROLLUP)</li>
                             <li>JSONB improvements</li>
                             <ul>
                                 <li>jsonb_set() - allows in-place editing of JSONB data</li>
@@ -1035,16 +1036,17 @@ Execution time: 2.199 ms
                     <section>
                         <h2>Upcoming 9.6 Features</h2>
                         <ul>
-                            <li>9.6 Performance talk from Mark Wong tomorrow @ 3:30pm in Room 106</li>
-                            <li>Parallel Sequential Scan & Some Joins</li>
+                            <li>Parallel Sequential Scan, Aggregation & Some Joins</li>
+                            <li>Built in uni-directional logical replication (merge in pglogical extension)</li>
+                            <li>Vacuum progress reporting</li>
+                            <li>More details about lock waits in pg_stat_activity</li>
                             <li>Support multiple -c & -f options for psql</li>
                             <li>%n log_line_prefix value for unix epoch</li>
-                            <li>Built in uni-directional logical replication (merge in pglogical extension)</li>
                         </ul>
                     </section>
 
                 </section>
-                <!-- end of 9.5 -->
+                <!-- end of 9.6 -->
                 <section data-background="css/theme/omniti_bg_logo.png">
 
                     <ul>
